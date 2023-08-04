@@ -12,8 +12,18 @@ class PacktBook(BaseModel):
     Publishers:str
     Isbn:str
 
+# # 모델 중첩해서 정의 가능
+# class Item(BaseModel):
+#     item:str
+#     status:str
+
+# class Todo(BaseModel):
+#     id:int
+#     item:Item
+
 # Todo 모델
 # 두 개의 필드를 가짐
 class Todo(BaseModel):
     id: int
     item: str
+
