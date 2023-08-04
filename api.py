@@ -3,6 +3,7 @@
 # uvicorn이 하나의 엔트리 포인트만 실행가능하기 때문
 
 from fastapi import FastAPI
+from todo import todo_router
 
 app=FastAPI()            # app변수에 FastAPI를 초기화해서 라우트 생성
 
@@ -14,6 +15,8 @@ async def welcome() -> dict:          # async : 비동기 함수, -> dict : 함�
     return {
         "message" : "Hello World"
     }
+
+app.include_router(todo_router)       # FastAPI() 인스턴스의 include_router() 메서드 사용
 
 ## 서버 실행 
 ## 터미널 : uvicorn api:app --port 8000 --reload
