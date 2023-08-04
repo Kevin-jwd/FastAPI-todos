@@ -19,3 +19,8 @@ async def retrieve_todos() -> dict:    # 파라미터 없이 호출, 반환 타�
     return{
         "todos":todo_list
     }
+
+## curl 실행 시 Not found 
+## APIRouter 클래스는 FastAPI 클래스와 동일한 방식으로 작동
+## uvicorn은 APIRouter() 인스턴스를 사용해서 애플리케이션을 실행할 수 없다.
+## APIRouter 클래스를 사용해 정의한 라우트를 FastAPI() 인스턴스에 추가해야 외부에서 접근 가능

@@ -15,7 +15,6 @@ async def welcome() -> dict:          # async : 비동기 함수, -> dict : 함�
         "message" : "Hello World"
     }
 
-
 ## 서버 실행 
 ## 터미널 : uvicorn api:app --port 8000 --reload
 ## file:instance : FastAPI 인스턴스가 존재하는 파이썬 파일과 FastAPI 인스턴스를 가지고 있는 변수를 지정
