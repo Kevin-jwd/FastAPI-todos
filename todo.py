@@ -1,7 +1,7 @@
 
 
 from fastapi import APIRouter, Path
-from model import Todo
+from model import Todo, TodoItem
 
 todo_router=APIRouter()             # APIRouter() 인스턴스 생성
 
@@ -48,6 +48,40 @@ async def get_single_todo(todo_id: int=Path(..., title="The ID of the todo to re
 
 # async query_route(query:str=Query(None)):
 #   return query
+
+# todo를 변경하기 위한 라우트 추가
+@todo_router.put("/todo/{todo_id}")
+async def update_todo(todo_data:TodoItem, todo_id:int=Path(..., title="The ID of the todo to be updated."))->dict:
+    for todo in todo_list:
+        if todo.id==todo_id:
+            todo.item=todo_data.item
+            return{
+                "message":"Todo updated successfully."
+            }
+    return{
+        "message":"Todo with supplied ID doesn't exist."
+    }
+
+# 삭제를 위한 DELETE 라우트 추가
+@todo_router.delete("/todo/{todo_id}")
+async def delete_single_todo(todo_id:int)->dict:
+    for index in range(len(todo_list)):
+        todo=todo_list[index]
+        if todo.id==todo_id:
+            todo_list.pop(index)
+            return{
+                "message":"Todo deleted successfully."
+            }
+    return{
+        "message":"Todo with supplied ID doesn't exist."
+    }
+
+@todo_router.delete("/todo")
+async def delete_all_todo()->dict:
+    todo_list.clear()
+    return{
+        "message":"Todos deleted successfully."
+    }
 
 ## curl 실행 시 Not found 
 ## APIRouter 클래스는 FastAPI 클래스와 동일한 방식으로 작동

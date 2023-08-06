@@ -23,4 +23,4 @@ app.include_router(todo_router)       # FastAPI() 인스턴스의 include_router
 ## file:instance : FastAPI 인스턴스가 존재하는 파이썬 파일과 FastAPI 인스턴스를 가지고 있는 변수를 지정
 ## --port PORT : 애플리케이션에 접속할 수 있는 포트 번호 지정
 ## --reload : 선택적 인수, 파일이 변경될 때마다 애플리케이션 재시작
-## cmd : curl http://localhost:8000/
+## cmd : curl (Client for URLs) http://localhost:8000/
