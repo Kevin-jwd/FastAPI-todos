@@ -27,3 +27,29 @@ class Todo(BaseModel):
     id: int
     item: str
 
+    # redoc json 스키마를 올바르게 생성하기 위해 사용자가 입력해야 할 데이터의 샘플을 설정 가능
+    # 샘플 데이터는 모델 클래스 안에 Config 클래스로 정의
+
+    # 책은 03.22.23 에 출판했는데 pydantic V2가 6월 중에 출시되면서 schema_extra와 json_schema_extra를 구분하던 것이 후자로 통일되었다.
+    # 책에서는 schema_extra를 사용하지만 이제는 json_schema_extra를 사용한다.
+    # 출처 : https://docs.pydantic.dev/dev-v2/migration/
+    class Config:
+        json_schema_extra={
+            "example":{
+                "id":1,
+                "item":"Example Schema!"
+            }
+        }
+
+# UPDATE 라우트의 요청 바디용 모델 추가
+class TodoItem(BaseModel):
+    item:str
+
+    class Config:
+        json_schema_extra={
+            "example":{
+                "item":"Read the next chapter of the book."
+            }
+        }
+
+
