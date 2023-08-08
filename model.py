@@ -3,7 +3,8 @@
 # 모델은 pydantic의 BaseModel 클래스의 하위 클래스로 생성됨.
 
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+from fastapi import Form
 
 # pydantic의 BaseModel 클래스의 하위 클래스로 정의된 PacktBook 모델
 # 네 개의 필드를 가짐.
@@ -25,9 +26,15 @@ class PacktBook(BaseModel):
 # Todo 모델
 # 두 개의 필드를 가짐
 class Todo(BaseModel):
-    id: int
+    id: Optional[int]
     item: str
 
+    @classmethod
+    def as_form(
+        cls,
+        item:str=Form(...)
+    ):
+        return cls(item=item)
     # redoc json 스키마를 올바르게 생성하기 위해 사용자가 입력해야 할 데이터의 샘플을 설정 가능
     # 샘플 데이터는 모델 클래스 안에 Config 클래스로 정의
 
