@@ -1,7 +1,7 @@
 
 
 from fastapi import APIRouter, Path
-from model import Todo, TodoItem
+from model import Todo, TodoItem, TodoItems
 
 todo_router=APIRouter()             # APIRouter() 인스턴스 생성
 
@@ -15,7 +15,7 @@ async def add_todo(todo:Todo) -> dict:   # 'todo'라는 딕셔너리 형식의 �
         "message" : "Todo added successfully."
     }
 
-@todo_router.get("/todo")     # 인스턴스에 대해 GET 요청을 처리하는 엔드포인트를 정의하는 데코레이터, 즉 '/todo'경로에 대한 GET 요청을 처리하는 함수
+@todo_router.get("/todo", response_model=TodoItems)     # 인스턴스에 대해 GET 요청을 처리하는 엔드포인트를 정의하는 데코레이터, 즉 '/todo'경로에 대한 GET 요청을 처리하는 함수
 async def retrieve_todos() -> dict:    # 파라미터 없이 호출, 반환 타입으로 딕셔너리
     return{
         "todos":todo_list
