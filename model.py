@@ -3,6 +3,7 @@
 # 모델은 pydantic의 BaseModel 클래스의 하위 클래스로 생성됨.
 
 from pydantic import BaseModel
+from typing import List
 
 # pydantic의 BaseModel 클래스의 하위 클래스로 정의된 PacktBook 모델
 # 네 개의 필드를 가짐.
@@ -52,4 +53,20 @@ class TodoItem(BaseModel):
             }
         }
 
+class TodoItems(BaseModel):
+    todos:List[TodoItem]
+
+    class Config:
+        schema_extra={
+            "example":{
+                "todos":[
+                    {
+                        "item":"Example schema 1!"
+                    },
+                    {
+                        "item":"Example schema 2!"
+                    }
+                ]
+            }
+        }
 
