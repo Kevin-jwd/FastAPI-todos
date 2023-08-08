@@ -1,6 +1,6 @@
 
 
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, HTTPException, status
 from model import Todo, TodoItem, TodoItems
 
 todo_router=APIRouter()             # APIRouter() 인스턴스 생성
@@ -8,7 +8,7 @@ todo_router=APIRouter()             # APIRouter() 인스턴스 생성
 # 내부 데이터베이스를 임시로 만들고 todos를 생성 및 추출하는 라우트 정의
 todo_list=[]
 
-@todo_router.post("/todo")     # 인스턴스에 대해 POST 요청을 처리하는 엔드포인트를 정의하는 데코레이터, 즉 '/todo'경로에 대한 POST 요청을 처리하는 함수
+@todo_router.post("/todo", status_code=200)     # 인스턴스에 대해 POST 요청을 처리하는 엔드포인트를 정의하는 데코레이터, 즉 '/todo'경로에 대한 POST 요청을 처리하는 함수
 async def add_todo(todo:Todo) -> dict:   # 'todo'라는 딕셔너리 형식의 파라미터를 받아들여, 반환 타입으로 딕셔너리
     todo_list.append(todo)
     return{
@@ -37,9 +37,10 @@ async def get_single_todo(todo_id: int=Path(..., title="The ID of the todo to re
             return{
                 "todo" : todo
             }
-    return {
-        "message" : "Todo with supplied ID doesn't exist."
-    }
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Todo with supplied ID doesn't exist.",
+    )
 
 # 쿼리 매개변수 : 선택 사항이며 보통 URL에서 ? 뒤에 나옴.
 # 제공된 쿼리를 기반으로 특정한 값을 반환하거나 요청을 필터링할 때 사용된다.
@@ -58,9 +59,10 @@ async def update_todo(todo_data:TodoItem, todo_id:int=Path(..., title="The ID of
             return{
                 "message":"Todo updated successfully."
             }
-    return{
-        "message":"Todo with supplied ID doesn't exist."
-    }
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Todo with supplied ID doesn't exist.",
+    )
 
 # 삭제를 위한 DELETE 라우트 추가
 @todo_router.delete("/todo/{todo_id}")
@@ -72,9 +74,10 @@ async def delete_single_todo(todo_id:int)->dict:
             return{
                 "message":"Todo deleted successfully."
             }
-    return{
-        "message":"Todo with supplied ID doesn't exist."
-    }
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Todo with supplied ID doesn't exist.",
+    )
 
 @todo_router.delete("/todo")
 async def delete_all_todo()->dict:
