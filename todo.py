@@ -9,6 +9,7 @@ todo_router=APIRouter()             # APIRouter() 인스턴스 생성
 # 내부 데이터베이스를 임시로 만들고 todos를 생성 및 추출하는 라우트 정의
 todo_list=[]
 
+# 템플릿 경로 지정
 templates=Jinja2Templates(directory="templates/")
 
 @todo_router.post("/todo", status_code=200)     # 인스턴스에 대해 POST 요청을 처리하는 엔드포인트를 정의하는 데코레이터, 즉 '/todo'경로에 대한 POST 요청을 처리하는 함수
@@ -44,19 +45,17 @@ async def get_single_todo(request: Request, todo_id: int=Path(..., title="The ID
     for todo in todo_list:
         if todo.id == todo_id:
             return templates.TemplateResponse(
-                {
                     "todo.html", {
                         "request" : request,
                         "todo" : todo
                     } 
-                }
             )
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Todo with supplied ID doesn't exist.",
     )
 
-# 쿼리 매개변수 : 선택 사항이며 보통 URL에서 ? 뒤에 나옴.
+# 쿼리 매개변수 : 선택 사항이며 보통 url에서 ? 뒤에 나옴.
 # 제공된 쿼리를 기반으로 특정한 값을 반환하거나 요청을 필터링할 때 사용된다.
 # 쿼리는 라우트 처리기의 인수로 사용되지만 경로 매개변수와 다른 형태로 정의된다.
 # 예를 들어 아래와 같이 FastAPI Query 클래스의 인스턴스를 만들어서 라우트 처리기의 인수로 쿼리를 정의할 수 있음.
