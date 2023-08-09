@@ -34,7 +34,7 @@ class Todo(BaseModel):
         cls,
         item:str=Form(...)
     ):
-        return cls(item=item)
+        return cls(id=None,item=item)     # id=None 으로 id 필드 초기화 -> 오류 방지
     # redoc json 스키마를 올바르게 생성하기 위해 사용자가 입력해야 할 데이터의 샘플을 설정 가능
     # 샘플 데이터는 모델 클래스 안에 Config 클래스로 정의
 
